@@ -75,8 +75,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //Mockito
-    testImplementation "org.mockito:mockito-core:2.19.0"
-    testImplementation 'org.mockito:mockito-inline:2.8.9'
+    testImplementation "org.mockito:mockito-core:3.12.4"
+    testImplementation 'org.mockito:mockito-inline:3.5.13'
     testImplementation('com.nhaarman:mockito-kotlin:1.5.0') {
         exclude group: 'org.jetbrains.kotlin'
         exclude group: 'org.mockito'
@@ -92,5 +92,7 @@ dependencies {
 
     //UI Automator
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0-alpha05'
+    androidTestImplementation 'androidx.test:rules:1.4.1-alpha05'
+
+
 }

@@ -58,7 +58,7 @@ class MainActivityTests {
     fun activityToDetailsActivityButton_HasText() {
         scenario.onActivity {
             val detailsActivityBtn = it.findViewById<Button>(R.id.toDetailsActivityButton)
-            assertEquals("to details", detailsActivityBtn.text)
+            assertEquals(TO_DETAILS_SMALL_TEXT, detailsActivityBtn.text)
         }
     }
 
@@ -66,7 +66,7 @@ class MainActivityTests {
     fun activitySearchEditText_HasText() {
         scenario.onActivity {
             val searchEditText = it.findViewById<EditText>(R.id.searchEditText)
-            assertEquals("Enter keyword e.g. android", searchEditText.hint)
+            assertEquals(HINT_TEXT, searchEditText.hint)
         }
     }
 
@@ -115,7 +115,7 @@ class MainActivityTests {
     @Test
     fun activityCreateIntent_NotNull() {
         scenario.onActivity {
-            val intent: Intent = it.intent.putExtra(TOTAL_COUNT_EXTRA, 0)
+            val intent: Intent = it.intent.putExtra(TOTAL_COUNT_EXTRA, ZERO_INT_VALUE)
             assertNotNull(intent)
         }
     }
@@ -123,7 +123,7 @@ class MainActivityTests {
     @Test
     fun activityCreateIntent_HasExtras() {
         scenario.onActivity {
-            val intent: Intent = it.intent.putExtra(TOTAL_COUNT_EXTRA, 0)
+            val intent: Intent = it.intent.putExtra(TOTAL_COUNT_EXTRA, ZERO_INT_VALUE)
             val bundle: Bundle? = intent.extras
             assertNotNull(bundle)
         }
@@ -135,7 +135,7 @@ class MainActivityTests {
             val count: Int = 4
             val intent: Intent = it.intent.putExtra(TOTAL_COUNT_EXTRA, count)
             val bundle: Bundle? = intent.extras
-            assertEquals(count, bundle?.getInt(TOTAL_COUNT_EXTRA, 0))
+            assertEquals(count, bundle?.getInt(TOTAL_COUNT_EXTRA, ZERO_INT_VALUE))
         }
     }
 
