@@ -70,6 +70,15 @@ class BehaviorTest {
         Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
             .perform(ViewActions.pressImeActionButton())
 
+
+        val toDetails: UiObject2 = uiDevice.findObject(
+            By.res(
+                packageName,
+                "toSearchActivityButton"
+            )
+        )
+        toDetails.click()
+
         //Ожидаем конкретного события: появления текстового поля totalCountTextView.
         //Это будет означать, что сервер вернул ответ с какими-то данными, то есть запрос отработал.
         val changedText =
