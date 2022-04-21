@@ -7,7 +7,6 @@ internal class DetailsPresenter internal constructor(
     private var count: Int = 0
 ): PresenterDetailsContract {
 
-
     private var viewContract: ViewDetailsContract? = null
     //endregion
 

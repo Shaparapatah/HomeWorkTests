@@ -5,62 +5,62 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.UiObject
 import androidx.test.uiautomator.UiScrollable
 import androidx.test.uiautomator.UiSelector
-import com.geekbrains.tests.*
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-@SdkSuppress(minSdkVersion = MIN_SDK_VALUE)
+@SdkSuppress(minSdkVersion = 18)
 class OpenOtherAppsTest {
+
     private val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
 
     @Test
     fun test_OpenSettings() {
-        // Нажимаем на системную кнопку Home()
         uiDevice.pressHome()
-        // Реализация смахивания для открытия нижнего системного меню с приложениями
-        uiDevice.swipe(
-            START_X_INT_VALUE, START_Y_INT_VALUE, END_X_INT_VALUE, END_Y_INT_VALUE, STEPS_INT_VALUE
-        )
-        // Установка скроллинга приложений
-        val appViews = UiScrollable(UiSelector().scrollable(true))
-        // Находим в контейнере настройки по названию иконки "Settings"
-        val settingsApp = appViews
-            .getChildByText(UiSelector().className(TextView::class.java.name), SETTINGS_TEXT)
-        // Открываем приложение "Настройки"
-        settingsApp.clickAndWaitForNewWindow()
-        // Убеждаемся, что приложение "Настройки" открыты
-        val settingsValidation =
-            uiDevice.findObject(UiSelector().packageName(SETTINGS_PACKAGE_NAME_TEXT))
-        Assert.assertTrue(settingsValidation.exists())
-    }
+        //Открываем экран со списком установленных приложений.
+        //Обратите внимание, что на устройстве, для которого писался этот тест (Android_Emulator - Pixel_2_Q_10_api),
+        //список приложений открывается свайпом снизу вверх на главном экране.
+        //Метод swipe принимает координаты начальной и конечной точки свайпа.
+        //В нашем случае это примерно снизу экрана строго вверх. Steps указывает, в
+        //какое количество шагов мы хотим осуществить смахивание: чем выше число,
+        //тем медленнее будет осуществляться свайп
+        uiDevice.swipe(500, 1500, 500, 0, 5)
 
-    @Test // Открытие приложение ScientificCalculator
-    fun test_OpenScientificCalculator() {
-        // Нажимаем на системную кнопку Home()
-        uiDevice.pressHome()
-        // Реализация смахивания для открытия нижнего системного меню с приложениями
-        uiDevice.swipe(
-            START_X_INT_VALUE, START_Y_INT_VALUE, END_X_INT_VALUE, END_Y_INT_VALUE, STEPS_INT_VALUE
-        )
-        // Установка скроллинга приложений
+        //Для других устройств список установленных приложений может открываться по другому.
+        //Часто это иконка на главном экране под названием Apps.
+        //Для этого достаточно свернуть все приложения через uiDevice.pressHome() и
+        //и найти Apps на главном экране
+        //val allAppsButton: UiObject = uiDevice.findObject(UiSelector().description("Apps"))
+        //allAppsButton.clickAndWaitForNewWindow()
+        //Вполне возможно (встречается на старых устройствах), что приложения находятся на вкладке Apps (будет еще вкладка Widgets).
+        //Тогда еще найдем вкладку и выберем ее
+        //val appsTab: UiObject = uiDevice.findObject(UiSelector().text("Apps"))
+        //appsTab.click()
+
+        //Приложений, обычно, установлено столько, что кнопка может быть за границей экрана
+        //Тогда корневым контейнером будет Scrollable.
+        //Если же все приложения умещаются на одном экране, то достаточно установить scrollable(false)
         val appViews = UiScrollable(UiSelector().scrollable(true))
-        // Находим в контейнере настройки по названию иконки "Settings"
+        //Если прокрутка горизонтальная (встречается на старых устройствах), нужно установить
+        // горизонтальную прокрутку (по умолчанию она вертикальная)
+        //appViews.setAsHorizontalList()
+
+        //Находим в контейнере настройки по названию иконки
         val settingsApp = appViews
             .getChildByText(
                 UiSelector()
                     .className(TextView::class.java.name),
-                SCIENTIFIC_CALCULATOR_TEXT
-            ) // Название хранится в манифесте в поле android:label
-        // Открываем приложение "Настройки"
+                "Settings"
+            )
+        //Открываем
         settingsApp.clickAndWaitForNewWindow()
-        // Находим кнопку 1
-        val buttonOne: UiObject = uiDevice.findObject(UiSelector().text(ONE_TEXT))
-        //Кликаем по кнопке 1
-        buttonOne.click()
+
+        //Убеждаемся, что Настройки открыты
+        val settingsValidation =
+            uiDevice.findObject(UiSelector().packageName("com.android.settings"))
+        Assert.assertTrue(settingsValidation.exists())
     }
 }

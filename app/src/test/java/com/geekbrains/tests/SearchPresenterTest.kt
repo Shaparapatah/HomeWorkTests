@@ -10,10 +10,8 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-
-class SearchPresenterTest {
-
-    private lateinit var presenter: SearchPresenter
+class SearchPresenterTests {
+    private lateinit var searchPresenter: SearchPresenter
 
     @Mock
     private lateinit var repository: GitHubRepository
@@ -21,40 +19,41 @@ class SearchPresenterTest {
     @Mock
     private lateinit var viewContract: ViewSearchContract
 
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        presenter = SearchPresenter(repository)
-        presenter.onAttach(viewContract)
+        searchPresenter = SearchPresenter(repository)
+        searchPresenter.onAttach(viewContract)
     }
 
     @Test
     fun searchGitHub_Test() {
         val searchQuery = SOME_QUERY_TEXT
-        presenter.searchGitHub(SOME_QUERY_TEXT)
+        searchPresenter.searchGitHub(SOME_QUERY_TEXT)
         com.nhaarman.mockito_kotlin.verify(repository, com.nhaarman.mockito_kotlin.times(1))
-            .searchGithub(searchQuery, presenter)
+            .searchGithub(searchQuery, searchPresenter)
     }
 
     @Test
     fun handleGitHubError_Test() {
 
-        presenter.handleGitHubError()
+        searchPresenter.handleGitHubError()
         verify(viewContract, times(ONE_INT_VALUE)).displayError()
     }
 
     @Test
     fun onDetach_Test() {
-        presenter.onDetach()
-        presenter.handleGitHubError()
+        searchPresenter.onDetach()
+        searchPresenter.handleGitHubError()
         verify(viewContract, times(ZERO_INT_VALUE)).displayError()
     }
 
     @Test
     fun onAttach_Test() {
-        presenter.onDetach()
-        presenter.onAttach(viewContract)
-        presenter.handleGitHubError()
+        searchPresenter.onDetach()
+        searchPresenter.onAttach(viewContract)
+        searchPresenter.handleGitHubError()
         verify(viewContract, times(ONE_INT_VALUE)).displayError()
     }
 }
